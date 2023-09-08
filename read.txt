@@ -1,0 +1,5 @@
+npm install bcryptjs     --for hashing the password
+
+npm install csurf        --for csrf protection
+
+npm install express-session connect-mongodb-session    --for handling session and store them in mongodb

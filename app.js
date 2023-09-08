@@ -2,8 +2,9 @@ const path = require('path');
 
 const express=require('express');
 const csrf=require('csurf'); // import csrf for protection
+const expressSession = require('express-session'); // import expressSession
 
-
+const createSessionConfig = require('./config/session'); //import session config
 const db=require('./data/database');
 const addCsrfTokenMiddleware = require('./middlewares/csrf-token');
 const errorHandlerMiddleware = require('./middlewares/error-handler');
@@ -18,7 +19,10 @@ app.use(express.static('public'));
 
 app.use(express.urlencoded({ extended:false }));
 
-app.use(csrf());
+const sessionConfig = createSessionConfig();
+
+app.use(expressSession(sessionConfig)); //session middleware and do all session function
+app.use(csrf()); //csrf middleware
 
 app.use(addCsrfTokenMiddleware);
 
