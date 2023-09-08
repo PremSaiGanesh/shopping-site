@@ -6,8 +6,12 @@ const expressSession = require('express-session'); // import expressSession
 
 const createSessionConfig = require('./config/session'); //import session config
 const db=require('./data/database');
+// importing middleware functions
 const addCsrfTokenMiddleware = require('./middlewares/csrf-token');
 const errorHandlerMiddleware = require('./middlewares/error-handler');
+const checkAuthStatusMiddleware = require('./middlewares/check-auth');
+
+// importing routes functions
 const authRoutes = require('./routes/auth.routes');
 const productRoutes = require('./routes/products.routes');
 const baseRoutes = require('./routes/base.routes');
