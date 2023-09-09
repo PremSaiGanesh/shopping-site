@@ -1,12 +1,21 @@
 const User = require("../models/user.model");
 const authUtil = require("../util/authentication"); //import the authutil
-const validation = require("../util/validation");
+const validation = require("../util/validation"); //import the validation
+const sessionFlash = require("../util/session-flash"); //import session-flash funcion
 
 function getSignup(req, res) {
   res.render("customer/auth/signup");
 }
 
 async function signup(req, res, next) {
+  const enteredData = {
+    email: req.body.email,
+    password: req.body.password,
+    fullname: req.body.fullname,
+    street: req.body.street,
+    city: req.body.city,
+    zipcode: req.body.zipcode,
+  };
   if (
     !validation.userDetailsAreValid(
       req.body.email,
@@ -18,7 +27,17 @@ async function signup(req, res, next) {
     ) ||
     !validation.emailIsConfirmed(req.body.email, req.body["confirm-email"])
   ) {
-    res.redirect("/signup");
+    sessionFlash.flashDataTOSession(
+      req,
+      {
+        errorMessage:
+          "Please check your input. Password is must be at least 6 characters long. Zipcode must be at least 4 characters long",
+        ...enteredData,
+      },
+      function () {
+        res.redirect("/signup");
+      }
+    );
     return;
   }
 
@@ -35,7 +54,16 @@ async function signup(req, res, next) {
     const existsAlready = await user.existsAlready();
 
     if (existsAlready) {
-      res.redirect("/signup");
+      sessionFlash.flashDataTOSession(
+        req,
+        {
+          errorMessage: "User exists already! Try logging in instead.",
+          ...enteredData,
+        },
+        function () {
+          res.redirect("/signup");
+        }
+      );
       return;
     }
     await user.signup();
@@ -62,8 +90,18 @@ async function login(req, res) {
     return;
   }
 
+  const sessionErrorData = {
+    errorMessage:
+      "Invalid User Credentials - please double check your email and password",
+    email: user.email,
+    password: user.password,
+  };
+
   if (!existingUser) {
-    res.redirect("/login");
+    sessionFlash.flashDataTOSession(req,sessionErrorData, function () {
+      res.redirect("/login");
+    });
+
     return;
   }
 
