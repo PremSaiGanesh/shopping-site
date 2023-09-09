@@ -31,6 +31,7 @@ app.use(expressSession(sessionConfig)); //session middleware and do all session 
 app.use(csrf()); //csrf middleware
 
 app.use(addCsrfTokenMiddleware);
+app.use(checkAuthStatusMiddleware);
 
 app.use(baseRoutes);
 app.use(authRoutes);
