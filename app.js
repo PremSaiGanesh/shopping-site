@@ -23,6 +23,7 @@ app.set('view engine','ejs');
 app.set('views',path.join(__dirname, 'views'));
 
 app.use(express.static('public')); // static middleware
+app.use('/products/assets',express.static('product-data')); // static middleware
 
 app.use(express.urlencoded({ extended:false }));
 
