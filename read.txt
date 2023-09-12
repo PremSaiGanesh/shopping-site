@@ -3,3 +3,7 @@ npm install bcryptjs     --for hashing the password
 npm install csurf        --for csrf protection
 
 npm install express-session connect-mongodb-session    --for handling session and store them in mongodb
+
+npm install --save multer  --used for uploading files. It is only used for multipart/form-data
+
+npm install uuid --used for generating unique identifiers for image filenames
