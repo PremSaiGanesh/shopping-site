@@ -49,7 +49,7 @@ class Product {
             title: this.title,
             summary: this.summary,
             price: this.price,
-            descripton: this.description,
+            description: this.description,
             image: this.image
         };
         await db.getDb().collection('products').insertOne(productData);

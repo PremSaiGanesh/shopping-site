@@ -39,7 +39,9 @@ async function getUpdateProduct(req,res) {
     }
 }
 
-function updateProduct() {}
+function updateProduct(req,res) {
+
+}
 
 module.exports = {
     getNewProduct: getNewProduct,
