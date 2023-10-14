@@ -5,7 +5,7 @@ async function getOrders(req, res) {
   try {
     const orders = await Order.findAllForUser(res.locals.uid);
     res.render('customer/orders/all-orders', {
-      orders: orders,
+      orders: orders
     });
   } catch (error) {
     next(error);
@@ -13,6 +13,8 @@ async function getOrders(req, res) {
 }
 
 async function addOrder(req, res, next) {
+  const cart = res.locals.cart;
+
   let userDocument;
   try {
     userDocument = await User.findById(res.locals.uid);
