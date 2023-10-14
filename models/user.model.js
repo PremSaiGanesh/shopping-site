@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs'); // used for hashing the password
+const mongodb = require('mongodb'); 
 
 const db = require('../data/database');
 
@@ -12,6 +13,12 @@ class User{
             city:city,
             zipcode:zipcode
         };
+    }
+
+    static async findById(userId) {
+        const uid= new mongodb.ObjectId(userId);
+
+        return db.getDb().collection('users').findOne({_id: uid}, {projection: {password: 0}});
     }
 
     getUserWithSameEmail(){

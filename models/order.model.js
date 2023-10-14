@@ -1,3 +1,5 @@
+const db = require('../data/database');
+
 class Order {
     // Status => pending,fulfilled,cancelled
     constructor(cart, userData, status = 'pending', date, orderId) {
@@ -12,6 +14,22 @@ class Order {
                 month: 'long',
                 year: 'numeric'
             });
+        }
+        this.id = orderId;
+    }
+
+    save() {
+        if (this.id) {
+            // updating
+        } else {
+            const orderDocument = {
+                userData: this.userData,
+                productData: this.productData,
+                date: new Date(),
+                status: this.status
+            };
+
+            return db.getDb().collection('orders').insertOne(orderDocument);
         }
     }
 }
